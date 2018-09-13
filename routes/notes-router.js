@@ -6,7 +6,7 @@ const NotesRouterFactory = notesService => {
   notesRouter.get("/", (req, res) => {
     notesService.getAll((err, notes) => {
       if (err) {
-        res.status(500).json({ error: "Internal server error" });
+        return res.status(500).json({ error: "Internal server error" });
       }
 
       res.json({ notes });
