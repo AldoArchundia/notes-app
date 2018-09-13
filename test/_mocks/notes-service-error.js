@@ -1,6 +1,8 @@
 const notesServiceError = {
-  getAll(cb) {
-    cb(new Error("whatever"));
+  getAll() {
+    return new Promise((_, reject) => {
+      reject(new Error("whatever"));
+    });
   }
 };
 

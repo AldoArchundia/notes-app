@@ -2,29 +2,32 @@ const ObjectId = require("mongodb").ObjectId;
 const notesMapper = require("../mappers/notes-mapper");
 
 const NotesMongoService = db => {
-  const getAll = cb => {
-    db.collection("notes")
-      .find({})
-      .toArray((err, notes) => {
-        if (err) {
-          cb(err);
-        }
-
-        const notesDtos = notes.map(notesMapper.toDto);
-
-        cb(null, notesDtos);
-      });
+  const getAll = () => {
+    return new Promise((resolve, reject) => {
+      db.collection("notes")
+        .find({})
+        .toArray((err, notes) => {
+          if (err) {
+            return reject(err);
+          }
+          const notesDtos = notes.map(notesMapper.toDto);
+          resolve(notesDtos);
+        });
+    });
   };
 
-  const getOneById = (id, cb) => {
-    const _id = new ObjectId(id);
-    db.collection("notes").findOne({ _id }, (err, note) => {
-      if (err) {
-        return cb(err);
-      }
+  const getOneById = id => {
+    return new Promise((resolve, reject) => {
+      const _id = new ObjectId(id);
 
-      const noteDto = note === null ? null : notesMapper.toDto(note);
-      cb(null, noteDto);
+      db.collection("notes").findOne({ _id }, (err, note) => {
+        if (err) {
+          return reject(err);
+        }
+
+        const noteDto = note === null ? null : notesMapper.toDto(note);
+        resolve(noteDto);
+      });
     });
   };
 

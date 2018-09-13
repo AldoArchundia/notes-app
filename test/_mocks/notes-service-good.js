@@ -12,8 +12,10 @@ const notes = [
 ];
 
 const notesServiceGood = {
-  getAll(cb) {
-    cb(null, notes);
+  getAll() {
+    return new Promise(resolve => {
+      resolve(notes);
+    });
   }
 };
 
