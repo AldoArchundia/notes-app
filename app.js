@@ -1,6 +1,9 @@
 const express = require("express");
+const morgan = require("morgan");
 const MongoClient = require("mongodb").MongoClient;
+
 const NotesRouter = require("./routes/notes-router");
+const NotesMongoService = require("./services/notes-mongo-service");
 
 const app = express();
 const DB_URL = "mongodb://localhost:27017";
@@ -13,8 +16,11 @@ function onMongoConnect(err, client) {
   }
 
   const db = client.db(DB_NAME);
+  const notesMongoService = NotesMongoService(db);
+  const notesRouter = NotesRouter(notesMongoService);
 
-  app.use("/notes", NotesRouter(db));
+  app.use(morgan("tiny"));
+  app.use("/notes", notesRouter);
   app.listen(PORT);
 }
 
