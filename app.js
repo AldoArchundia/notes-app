@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const MongoClient = require("mongodb").MongoClient;
+const bodyParser = require("body-parser");
 
 const NotesRouter = require("./routes/notes-router");
 const NotesMongoService = require("./services/notes-mongo-service");
@@ -20,6 +21,7 @@ function onMongoConnect(err, client) {
   const notesRouter = NotesRouter(notesMongoService);
 
   app.use(morgan("tiny"));
+  app.use(bodyParser.json());
   app.use("/notes", notesRouter);
   app.listen(PORT);
 }

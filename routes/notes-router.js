@@ -19,10 +19,19 @@ const NotesRouterFactory = notesService => {
         return res.status(500).json({ error: "Internal server error" });
       }
 
-      res.json({ notes });
+      res.json({ note });
     });
   });
 
+  notesRouter.post("/", (req, res) => {
+    notesService.createOne(req.body, (err, note) => {
+      if (err) {
+        return res.status(500).json({ error: "Internal server error" });
+      }
+
+      res.status(201).json({ note });
+    });
+  });
   return notesRouter;
 };
 

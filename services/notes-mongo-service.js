@@ -23,14 +23,26 @@ const NotesMongoService = db => {
         return cb(err);
       }
 
-      const noteDto = notes - mappers.toDto(note);
+      const noteDto = notesMapper.toDto(note);
+      cb(null, noteDto);
+    });
+  };
+
+  const createOne = (note, cb) => {
+    db.collection("notes").insertOne(note, (err, r) => {
+      if (err) {
+        return cb(err);
+      }
+
+      const noteDto = notesMapper.toDto(r.ops[0]);
       cb(null, noteDto);
     });
   };
 
   return {
     getAll,
-    getOneById
+    getOneById,
+    createOne
   };
 };
 
