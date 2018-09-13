@@ -23,7 +23,7 @@ const NotesMongoService = db => {
         return cb(err);
       }
 
-      const noteDto = notesMapper.toDto(note);
+      const noteDto = note === null ? null : notesMapper.toDto(note);
       cb(null, noteDto);
     });
   };
@@ -39,10 +39,38 @@ const NotesMongoService = db => {
     });
   };
 
+  const deleteOneById = (id, cb) => {
+    const _id = new ObjectId(id);
+    db.collection("notes").deleteOne({ _id }, (err, r) => {
+      if (err) {
+        return cb(err);
+      }
+
+      cb();
+    });
+  };
+
+  const updateOneById = (id, note, cb) => {
+    const _id = new ObjectId(id);
+    db.collection("notes").updateOne(
+      { _id },
+      { $set: { title: note.title, text: note.text } },
+      (err, r) => {
+        if (err) {
+          return cb(err);
+        }
+
+        getOneById(id, cb);
+      }
+    );
+  };
+
   return {
     getAll,
     getOneById,
-    createOne
+    createOne,
+    deleteOneById,
+    updateOneById
   };
 };
 
