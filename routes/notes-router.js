@@ -52,10 +52,8 @@ const NotesRouterFactory = notesService => {
   notesRouter.put("/:id", (req, res) => {
     notesService.updateOneById(req.params.id, req.body, (err, note) => {
       if (err) {
-        console.log(err);
         return res.status(500).json({ error: "Internal server error" });
       }
-
       res.status(200).json({ note });
     });
   });

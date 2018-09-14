@@ -14,6 +14,9 @@ const notesServiceError = {
   },
   deleteOneById(id, cb) {
     cb(new Error("Internal server error"));
+  },
+  updateOneById(id, note, cb) {
+    cb(new Error("Internal server error"));
   }
 };
 

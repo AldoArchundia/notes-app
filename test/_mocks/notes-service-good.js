@@ -27,6 +27,9 @@ const notesServiceGood = {
   },
   deleteOneById(id, cb) {
     cb(null, {});
+  },
+  updateOneById(id, note, cb) {
+    cb(null, { ...note, id });
   }
 };
 

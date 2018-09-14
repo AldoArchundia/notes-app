@@ -151,4 +151,35 @@ describe("notes-router", () => {
         });
     });
   });
+
+  describe("PUT /:id", () => {
+    it("should return the note that was updated", done => {
+      request(app)
+        .put("/notes/1")
+        .send({ title: "Title_1", text: "Body_1" })
+        .expect(200)
+        .end((err, res) => {
+          if (err) {
+            throw err;
+          }
+          expect(res.body.note.title).to.be.equal("Title_1");
+          expect(res.body.note.text).to.be.equal("Body_1");
+          expect(res.body.note.id).to.be.equal("1");
+          done();
+        });
+    });
+    it("should return an error", done => {
+      request(app)
+        .put("/notes-error/1")
+        .send({ title: "Title_1", text: "Body_1" })
+        .expect(500)
+        .end((err, res) => {
+          if (err) {
+            throw err;
+          }
+          expect(res.body).to.be.deep.equal({ error: "Internal server error" });
+          done();
+        });
+    });
+  });
 });
