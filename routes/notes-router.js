@@ -30,32 +30,32 @@ const NotesRouterFactory = notesService => {
   });
 
   notesRouter.post("/", (req, res) => {
-    notesService.createOne(req.body, (err, note) => {
-      if (err) {
-        return res.status(500).json({ error: "Internal server error" });
-      }
-
-      res.status(201).json({ note });
-    });
+    notesService
+      .createOne(req.body)
+      .then(note => {
+        res.status(201).json({ note });
+      })
+      .catch(err => {
+        res.status(500).json({ error: "Internal server error" });
+      });
   });
 
   notesRouter.delete("/:id", (req, res) => {
-    notesService.deleteOneById(req.params.id, err => {
-      if (err) {
-        return res.status(500).json({ error: "Internal server error" });
-      }
-
-      res.status(200).json({});
-    });
+    notesService
+      .deleteOneById(req.params.id)
+      .then(() => res.status(200).json({}))
+      .catch(err => {
+        res.status(500).json({ error: "Internal server error" });
+      });
   });
 
   notesRouter.put("/:id", (req, res) => {
-    notesService.updateOneById(req.params.id, req.body, (err, note) => {
-      if (err) {
+    notesService
+      .updateOneById(req.params.id, req.body)
+      .then(note => res.status(200).json({ note }))
+      .catch(err => {
         return res.status(500).json({ error: "Internal server error" });
-      }
-      res.status(200).json({ note });
-    });
+      });
   });
   return notesRouter;
 };

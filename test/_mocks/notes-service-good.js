@@ -22,14 +22,18 @@ const notesServiceGood = {
       resolve(notes[0]);
     });
   },
-  createOne(note, cb) {
-    cb(null, { ...note, id: "1" });
+  createOne(note) {
+    return new Promise(resolve => {
+      resolve({ ...note, id: "1" });
+    });
   },
-  deleteOneById(id, cb) {
-    cb(null, {});
+  deleteOneById(id) {
+    return new Promise(resolve => resolve({}));
   },
-  updateOneById(id, note, cb) {
-    cb(null, { ...note, id });
+  updateOneById(id, note) {
+    return new Promise(resolve => {
+      resolve({ ...note, id });
+    });
   }
 };
 

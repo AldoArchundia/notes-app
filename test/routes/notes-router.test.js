@@ -126,7 +126,7 @@ describe("notes-router", () => {
   });
 
   describe("DELETE /:id", () => {
-    it("should return the note that matches the provided ID", done => {
+    it("should return an empty Json", done => {
       request(app)
         .delete("/notes/1")
         .expect(200)

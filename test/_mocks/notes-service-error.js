@@ -9,14 +9,20 @@ const notesServiceError = {
       reject(new Error("whatever2"));
     });
   },
-  createOne(note, cb) {
-    cb(new Error("Internal server error"));
+  createOne(note) {
+    return new Promise((_, reject) => {
+      reject(new Error("Internal server error"));
+    });
   },
-  deleteOneById(id, cb) {
-    cb(new Error("Internal server error"));
+  deleteOneById(id) {
+    return new Promise((_, reject) => {
+      reject(new Error("Internal server error"));
+    });
   },
-  updateOneById(id, note, cb) {
-    cb(new Error("Internal server error"));
+  updateOneById(id, note) {
+    return new Promise((_, reject) => {
+      reject(new Error("Internal server error"));
+    });
   }
 };
 

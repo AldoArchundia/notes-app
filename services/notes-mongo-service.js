@@ -19,26 +19,26 @@ const NotesMongoService = db => {
   const getOneById = id => {
     return new Promise((resolve, reject) => {
       const _id = new ObjectId(id);
-
       db.collection("notes").findOne({ _id }, (err, note) => {
         if (err) {
           return reject(err);
         }
-
         const noteDto = note === null ? null : notesMapper.toDto(note);
         resolve(noteDto);
       });
     });
   };
 
-  const createOne = (note, cb) => {
-    db.collection("notes").insertOne(note, (err, r) => {
-      if (err) {
-        return cb(err);
-      }
+  const createOne = note => {
+    return new Promise((resolve, reject) => {
+      db.collection("notes").insertOne(note, (err, r) => {
+        if (err) {
+          return reject(err);
+        }
 
-      const noteDto = notesMapper.toDto(r.ops[0]);
-      cb(null, noteDto);
+        const noteDto = notesMapper.toDto(r.ops[0]);
+        resolve(noteDto);
+      });
     });
   };
 
