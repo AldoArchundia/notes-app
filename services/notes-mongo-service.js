@@ -42,30 +42,33 @@ const NotesMongoService = db => {
     });
   };
 
-  const deleteOneById = (id, cb) => {
-    const _id = new ObjectId(id);
-    db.collection("notes").deleteOne({ _id }, (err, r) => {
-      if (err) {
-        return cb(err);
-      }
+  const deleteOneById = id => {
+    return new Promise((resolve, reject) => {
+      const _id = new ObjectId(id);
+      db.collection("notes").deleteOne({ _id }, (err, r) => {
+        if (err) {
+          return reject(err);
+        }
 
-      cb();
+        resolve();
+      });
     });
   };
 
-  const updateOneById = (id, note, cb) => {
-    const _id = new ObjectId(id);
-    db.collection("notes").updateOne(
-      { _id },
-      { $set: { title: note.title, text: note.text } },
-      (err, r) => {
-        if (err) {
-          return cb(err);
+  const updateOneById = (id, note) => {
+    new Promise((resolve, reject) => {
+      const _id = new ObjectId(id);
+      db.collection("notes").updateOne(
+        { _id },
+        { $set: { title: note.title, text: note.text } },
+        (err, r) => {
+          if (err) {
+            return reject(err);
+          }
         }
-
-        getOneById(id, cb);
-      }
-    );
+      );
+      resolve(getOneById(id));
+    });
   };
 
   return {
